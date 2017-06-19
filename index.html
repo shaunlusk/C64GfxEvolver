@@ -47,7 +47,8 @@
   <script type="text/javascript" src="node_modules/C64Style/lib/Screen.js"></script>
 
   <script type="text/javascript" src="lib/Net.js"></script>
-    <script type="text/javascript" src="lib/NetMutator.js"></script>
+  <script type="text/javascript" src="lib/PixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/NetMutator.js"></script>
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
   <script type="text/javascript" src="lib/Evolver.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -74,7 +75,7 @@
     populationDisplayer : new C64GfxEv.PopulationDisplayer()
   };
 
-  var screen = null, textLayer = null, gfxLayer, evolver;
+  var screen = null, textLayer = null, gfxLayer, evolver, pixElementsCreator;
 
   function initialize(targetDiv, config) {
 
@@ -87,6 +88,12 @@
 
     textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
+
+    pixElementsCreator = new C64GfxEv.PixElementCreator({
+      screenContext: screen,
+      layer:gfxLayer
+    }
+    evolverProps.pixElementsCreator = pixElementsCreator;
     evolver = new C64GfxEv.Evolver(evolverProps);
     // TODO register click handler with screen
     evolver.createPopulation();
