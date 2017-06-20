@@ -47,6 +47,7 @@
   <script type="text/javascript" src="node_modules/C64Style/lib/Screen.js"></script>
 
   <script type="text/javascript" src="lib/Net.js"></script>
+  <script type="text/javascript" src="lib/NetFactory.js"></script>
   <script type="text/javascript" src="lib/PixElementCreator.js"></script>
   <script type="text/javascript" src="lib/NetMutator.js"></script>
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
@@ -74,8 +75,11 @@
     mutationRates : [0.4, 0.2, 0.2, 0.2],
     populationDisplayer : new C64GfxEv.PopulationDisplayer()
   };
+  var netFactoryProps = {
+    layerSize : [3,10,16]
+  };
 
-  var screen = null, textLayer = null, gfxLayer, evolver, pixElementsCreator;
+  var screen = null, textLayer = null, gfxLayer, evolver, pixElementsCreator, netMutator, netFactory;
 
   function initialize(targetDiv, config) {
 
@@ -91,9 +95,23 @@
 
     pixElementsCreator = new C64GfxEv.PixElementCreator({
       screenContext: screen,
-      layer:gfxLayer
-    }
+      layer:gfxLayer,
+      elementWidth:8,
+      elementHeight:8
+    });
     evolverProps.pixElementsCreator = pixElementsCreator;
+
+    netFactory = new C64GfxEv.NetFactory(netFactoryProps);
+    evolverProps.netFactory = netFactory;
+
+    var netMutatorProps = {
+      mutationRates : [0.4, 0.2, 0.2, 0.2],
+      netFactory : netFactory
+    };
+
+    netMutator = new C64GfxEv.NetMutator(netMutatorProps);
+    evolverProps.netMutator = netMutator;
+
     evolver = new C64GfxEv.Evolver(evolverProps);
     // TODO register click handler with screen
     evolver.createPopulation();
