@@ -73,13 +73,13 @@
 
   var evolverProps = {
     mutationRates : [0.4, 0.2, 0.2, 0.2],
-    populationDisplayer : new C64GfxEv.PopulationDisplayer()
   };
   var netFactoryProps = {
     layerSize : [3,10,16]
   };
 
-  var screen = null, textLayer = null, gfxLayer, evolver, pixElementsCreator, netMutator, netFactory;
+  var screen = null, textLayer = null, gfxLayer, evolver, pixElementsCreator,
+    netMutator, netFactory, populationDisplayer;
 
   function initialize(targetDiv, config) {
 
@@ -92,12 +92,19 @@
 
     textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
+    populationDisplayer = new C64GfxEv.PopulationDisplayer({
+      layer:gfxLayer,
+      screenWidth:gfxLayer.getWidth() / config.scaleX,
+      paddingX:16,
+      paddingY:16
+    });
+    evolverProps.populationDisplayer = populationDisplayer;
 
     pixElementsCreator = new C64GfxEv.PixElementCreator({
       screenContext: screen,
       layer:gfxLayer,
-      elementWidth:8,
-      elementHeight:8
+      elementWidth:24,
+      elementHeight:24
     });
     evolverProps.pixElementsCreator = pixElementsCreator;
 
