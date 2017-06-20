@@ -46,6 +46,7 @@
   <script type="text/javascript" src="node_modules/C64Style/lib/TextLayer.js"></script>
   <script type="text/javascript" src="node_modules/C64Style/lib/Screen.js"></script>
 
+  <script type="text/javascript" src="lib/PixElementExtension.js"></script>
   <script type="text/javascript" src="lib/Net.js"></script>
   <script type="text/javascript" src="lib/NetFactory.js"></script>
   <script type="text/javascript" src="lib/PixElementCreator.js"></script>
@@ -99,7 +100,6 @@
       paddingX:16,
       paddingY:16
     });
-    evolverProps.populationDisplayer = populationDisplayer;
 
     pixElementsCreator = new C64GfxEv.PixElementCreator({
       screenContext: screen,
@@ -107,21 +107,26 @@
       elementWidth:32,
       elementHeight:32
     });
-    evolverProps.pixElementsCreator = pixElementsCreator;
 
     netFactory = new C64GfxEv.NetFactory(netFactoryProps);
-    evolverProps.netFactory = netFactory;
 
     var netMutatorProps = {
       mutationRates : [0.4, 0.2, 0.2, 0.2],
-      netFactory : netFactory
+      netFactory : netFactory,
+      mutationMax:3
     };
 
     netMutator = new C64GfxEv.NetMutator(netMutatorProps);
-    evolverProps.netMutator = netMutator;
 
+    evolverProps.screenContext = screen;
+    evolverProps.populationDisplayer = populationDisplayer;
+    evolverProps.pixElementsCreator = pixElementsCreator;
+    evolverProps.netFactory = netFactory;
+    evolverProps.netMutator = netMutator;
     evolver = new C64GfxEv.Evolver(evolverProps);
-    // TODO register click handler with screen
+
+    screen.on(SL.EventType.MOUSE_UP_ON_ELEMENT, evolver.handleElementClick.bind(evolver));
+
     evolver.createPopulation();
   }
 
