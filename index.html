@@ -73,6 +73,7 @@
 
   var evolverProps = {
     mutationRates : [0.4, 0.2, 0.2, 0.2],
+    populationSize:18
   };
   var netFactoryProps = {
     layerSize : [3,10,16]
@@ -103,8 +104,8 @@
     pixElementsCreator = new C64GfxEv.PixElementCreator({
       screenContext: screen,
       layer:gfxLayer,
-      elementWidth:24,
-      elementHeight:24
+      elementWidth:32,
+      elementHeight:32
     });
     evolverProps.pixElementsCreator = pixElementsCreator;
 
