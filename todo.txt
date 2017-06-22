@@ -8,11 +8,6 @@ Configure at start
   activation type
   mutation rates?
 
-
-outputs
-  greyscale
-  rgb
-
 layer activation type
 
 mutate 1 layer at a time
