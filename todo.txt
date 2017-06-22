@@ -1,1 +1,19 @@
-normalize inputs
+Configure at start
+  output type
+    c64 colors
+    greyscale
+    rgb
+  #layers
+  layer size
+  activation type
+  mutation rates?
+
+
+outputs
+  greyscale
+  rgb
+
+layer activation type
+
+mutate 1 layer at a time
+mutate all weights

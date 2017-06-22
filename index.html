@@ -49,9 +49,12 @@
   <script type="text/javascript" src="lib/PixElementExtension.js"></script>
   <script type="text/javascript" src="lib/Net.js"></script>
   <script type="text/javascript" src="lib/NetFactory.js"></script>
-  <script type="text/javascript" src="lib/PixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/AbstractPixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/C64ColorPixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/GreyscalePixElementCreator.js"></script>
   <script type="text/javascript" src="lib/NetMutator.js"></script>
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
+  <script type="text/javascript" src="lib/Factory.js"></script>
   <script type="text/javascript" src="lib/Evolver.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 <style>
@@ -62,6 +65,11 @@
 </head>
 <body>
   <div id="content">
+  </div>
+  <div id="form">
+    <form>
+
+    </form>
   </div>
   <script type="text/javascript">
   var config = {
@@ -80,11 +88,10 @@
     layerSize : [3,10,16]
   };
 
-  var screen = null, textLayer = null, gfxLayer, evolver, pixElementsCreator,
+  var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
     netMutator, netFactory, populationDisplayer;
 
   function initialize(targetDiv, config) {
-
     // Create the C64 Screen
     screen = new C64Style.C64Screen(targetDiv, new C64Style.LayerFactory(), config);
     screen.initialize();
@@ -94,6 +101,18 @@
 
     textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
+    // TODO write instruction text
+
+    startEvolution();
+  }
+
+  function startEvolution() {
+    // TODO wipe instruction text
+
+    var factory = new C64GfxEv.Factory({
+      pixElementCreatorType:"GreyscalePixElementCreator"
+    });
+
     populationDisplayer = new C64GfxEv.PopulationDisplayer({
       layer:gfxLayer,
       screenWidth:gfxLayer.getWidth() / config.scaleX,
@@ -101,7 +120,7 @@
       paddingY:16
     });
 
-    pixElementsCreator = new C64GfxEv.PixElementCreator({
+    pixElementCreator = factory.getPixElementCreator({
       screenContext: screen,
       layer:gfxLayer,
       elementWidth:32,
@@ -120,7 +139,7 @@
 
     evolverProps.screenContext = screen;
     evolverProps.populationDisplayer = populationDisplayer;
-    evolverProps.pixElementsCreator = pixElementsCreator;
+    evolverProps.pixElementCreator = pixElementCreator;
     evolverProps.netFactory = netFactory;
     evolverProps.netMutator = netMutator;
     evolver = new C64GfxEv.Evolver(evolverProps);
