@@ -52,6 +52,7 @@
   <script type="text/javascript" src="lib/AbstractPixElementCreator.js"></script>
   <script type="text/javascript" src="lib/C64ColorPixElementCreator.js"></script>
   <script type="text/javascript" src="lib/GreyscalePixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/RgbPixElementCreator.js"></script>
   <script type="text/javascript" src="lib/NetMutator.js"></script>
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
   <script type="text/javascript" src="lib/Factory.js"></script>
@@ -85,7 +86,7 @@
     populationSize:18
   };
   var netFactoryProps = {
-    layerSize : [3,10,16]
+    layerSize : [3,10,3]
   };
 
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
@@ -110,7 +111,7 @@
     // TODO wipe instruction text
 
     var factory = new C64GfxEv.Factory({
-      pixElementCreatorType:"GreyscalePixElementCreator"
+      pixElementCreatorType:"RgbPixElementCreator"
     });
 
     populationDisplayer = new C64GfxEv.PopulationDisplayer({
