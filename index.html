@@ -85,8 +85,25 @@
     mutationRates : [0.4, 0.2, 0.2, 0.2],
     populationSize:18
   };
+  var layerConfig = {
+    input: 3,
+    output: {
+      size:16,
+      activationType:"gaussian"
+    },
+    hidden: [
+      {
+        size:8,
+        activationType:"gaussian"
+      },
+      {
+        size:16,
+        activationType:"sigmoid"
+      }
+    ]
+  };
   var netFactoryProps = {
-    layerSize : [3,10,3]
+    layerConfig : layerConfig
   };
 
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
@@ -111,7 +128,7 @@
     // TODO wipe instruction text
 
     var factory = new C64GfxEv.Factory({
-      pixElementCreatorType:"RgbPixElementCreator"
+      pixElementCreatorType:"C64ColorPixElementCreator"
     });
 
     populationDisplayer = new C64GfxEv.PopulationDisplayer({
