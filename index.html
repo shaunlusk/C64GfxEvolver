@@ -53,6 +53,7 @@
   <script type="text/javascript" src="lib/C64ColorPixElementCreator.js"></script>
   <script type="text/javascript" src="lib/GreyscalePixElementCreator.js"></script>
   <script type="text/javascript" src="lib/RgbPixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/C64MonochromePixElementCreator.js"></script>
   <script type="text/javascript" src="lib/NetMutator.js"></script>
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
   <script type="text/javascript" src="lib/Factory.js"></script>
@@ -82,26 +83,25 @@
     };
 
   var evolverProps = {
-    mutationRates : [0.4, 0.2, 0.2, 0.2],
     populationSize:18
   };
   var layerConfig = {
-    input: 16,
+    input: 3,
     output: {
-      size:16,
+      size:1,
       activationType:"sigmoid"
     },
     hidden: [
       {
-        size:27,
+        size:8,
         activationType:"sigmoid"
       },
       {
-        size:13,
+        size:8,
         activationType:"gaussian"
       },
       {
-        size:7,
+        size:4,
         activationType:"sigmoid"
       },
     ]
@@ -132,7 +132,7 @@
     // TODO wipe instruction text
 
     var factory = new C64GfxEv.Factory({
-      pixElementCreatorType:"C64ColorPixElementCreator"
+      pixElementCreatorType:"C64MonochromePixElementCreator"
     });
 
     populationDisplayer = new C64GfxEv.PopulationDisplayer({

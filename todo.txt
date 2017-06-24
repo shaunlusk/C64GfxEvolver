@@ -1,5 +1,7 @@
-Configure at start
-  mutation rates?
+Button to start
+config from form
 
-mutate 1 layer at a time
-mutate all weights
+nearest neighbor c64 color pix creator
+
+serialize pix map
+serialize net
