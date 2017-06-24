@@ -86,20 +86,24 @@
     populationSize:18
   };
   var layerConfig = {
-    input: 3,
+    input: 16,
     output: {
       size:16,
-      activationType:"gaussian"
+      activationType:"sigmoid"
     },
     hidden: [
       {
-        size:8,
+        size:27,
+        activationType:"sigmoid"
+      },
+      {
+        size:13,
         activationType:"gaussian"
       },
       {
-        size:16,
+        size:7,
         activationType:"sigmoid"
-      }
+      },
     ]
   };
   var netFactoryProps = {
@@ -148,9 +152,9 @@
     netFactory = new C64GfxEv.NetFactory(netFactoryProps);
 
     var netMutatorProps = {
-      mutationRates : [0.4, 0.2, 0.2, 0.2],
+      mutationRates : [0.4, 0.3, 0.3],
       netFactory : netFactory,
-      mutationMax:3
+      mutationMax:1
     };
 
     netMutator = new C64GfxEv.NetMutator(netMutatorProps);
