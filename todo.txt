@@ -1,7 +1,14 @@
 Button to start
 config from form
+  net layers
+    outputs
+    hidden
+pix element creator
 
-nearest neighbor c64 color pix creator
+reset
+
 
 serialize pix map
 serialize net
+
+move all object creation to factory

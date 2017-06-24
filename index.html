@@ -54,6 +54,7 @@
   <script type="text/javascript" src="lib/GreyscalePixElementCreator.js"></script>
   <script type="text/javascript" src="lib/RgbPixElementCreator.js"></script>
   <script type="text/javascript" src="lib/C64MonochromePixElementCreator.js"></script>
+  <script type="text/javascript" src="lib/C64NearestNeighborColorPixElementCreator.js"></script>
   <script type="text/javascript" src="lib/NetMutator.js"></script>
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
   <script type="text/javascript" src="lib/Factory.js"></script>
@@ -88,7 +89,7 @@
   var layerConfig = {
     input: 3,
     output: {
-      size:1,
+      size:3,
       activationType:"sigmoid"
     },
     hidden: [
@@ -132,7 +133,7 @@
     // TODO wipe instruction text
 
     var factory = new C64GfxEv.Factory({
-      pixElementCreatorType:"C64MonochromePixElementCreator"
+      pixElementCreatorType:"C64NearestNeighborColorPixElementCreator"
     });
 
     populationDisplayer = new C64GfxEv.PopulationDisplayer({
