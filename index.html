@@ -59,6 +59,8 @@
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
   <script type="text/javascript" src="lib/Factory.js"></script>
   <script type="text/javascript" src="lib/Evolver.js"></script>
+
+  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 <style>
 #content {
@@ -71,51 +73,47 @@
   </div>
   <div>&nbsp;</div>
   <div id="form">
-    <table>
-      <tr>
-        <td>Color Scheme:</td>
-        <td>
-          <select>
-            <option>C64 Palette</option>
-            <option>C64 Monochrome Palette</option>
-            <option>Greyscale</option>
-            <option>256bit RGB</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Output Layer Activation:</td>
-        <td>
-          <select>
-            <option>Sigmoid</option>
-            <option>Gaussian</option>
-          </select>
-        </td>
-      </tr>
-    </table>
+    <div>
+      Color Scheme:
+      <select>
+        <option>C64 Palette</option>
+        <option>C64 Monochrome Palette</option>
+        <option>Greyscale</option>
+        <option>256bit RGB</option>
+      </select>
+    </div>
+    <div>
+      Output Layer Activation:
+      <select>
+        <option>Sigmoid</option>
+        <option>Gaussian</option>
+      </select>
+    </div>
     <div>&nbsp;</div>
-    <table>
-      <tr>
-        <td>Layer Config:</td><td><button>+</button></td>
-      </tr>
-      <tr>
-        <td>Nodes:</td>
-        <td><input size="3" maxlength="2" /></td>
-        <td>Layer Activation:</td>
-        <td>
-          <select>
-            <option>Sigmoid</option>
-            <option>Gaussian</option>
-          </select>
-        </td>
-      </tr>
-      <tr><td>&nbsp;</td></tr>
-      <tr>
-        <td><button onclick="startEvolution()">Start</button></td>
-      </tr>
-    </table>
+    <div>
+      Layer Config:<button onclick="addLayerConfig()">+</button>
+      <div id="layerTarget"></div>
+      <div>&nbsp;</div>
+      <div>Note: Adding many large layers will degrade performance.</div>
+      <div>&nbsp;</div>
+      <div>
+        <button onclick="startEvolution()">Start</button></td>
+      </div>
+    </div>
   </div>
   <script type="text/javascript">
+  var layerConfigTemplate =
+    '<div>' +
+    'Nodes:&nbsp;' +
+    '<input size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
+    'Layer Activation:&nbsp;' +
+      '<select>' +
+        '<option>Sigmoid</option>' +
+        '<option>Gaussian</option>' +
+      '</select>' +
+    '&nbsp;&nbsp;&nbsp;<button onclick="removeLayerConfig(this)">x</button>' +
+    '</div>';
+
   var config = {
       "rows" : 28,
       "cols" : 40,
@@ -136,11 +134,11 @@
     hidden: [
       {
         size:8,
-        activationType:"sigmoid"
+        activationType:"gaussian"
       },
       {
         size:8,
-        activationType:"gaussian"
+        activationType:"sigmoid"
       },
       {
         size:4,
@@ -166,8 +164,6 @@
     textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
     // TODO write instruction text
-
-    // startEvolution();
   }
 
   function startEvolution() {
@@ -211,6 +207,13 @@
     screen.on(SL.EventType.MOUSE_UP_ON_ELEMENT, evolver.handleElementClick.bind(evolver));
 
     evolver.createPopulation();
+  }
+
+  function addLayerConfig() {
+    $("#layerTarget").append(layerConfigTemplate);
+  }
+  function removeLayerConfig(el) {
+    $(el).parent().remove();
   }
 
   initialize(document.getElementById("content"), config);

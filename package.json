@@ -5,6 +5,7 @@
   "author": "Shaun Lusk",
   "license": "MIT",
   "dependencies": {
-    "C64Style": "shaunlusk/C64Style"
+    "C64Style": "shaunlusk/C64Style",
+    "jquery": "3.2.1"
   }
 }
