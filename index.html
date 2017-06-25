@@ -69,16 +69,51 @@
 <body>
   <div id="content">
   </div>
+  <div>&nbsp;</div>
   <div id="form">
-    <div>
-      <select>
-        <option>C64 Palette</option>
-        <option>C64 Monochrome Palette</option>
-        <option>Greyscale</option>
-        <option>256bit RGB</option>
-      </select>
-    </div>
-    <button onclick="startEvolution()">Start</button>
+    <table>
+      <tr>
+        <td>Color Scheme:</td>
+        <td>
+          <select>
+            <option>C64 Palette</option>
+            <option>C64 Monochrome Palette</option>
+            <option>Greyscale</option>
+            <option>256bit RGB</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Output Layer Activation:</td>
+        <td>
+          <select>
+            <option>Sigmoid</option>
+            <option>Gaussian</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <div>&nbsp;</div>
+    <table>
+      <tr>
+        <td>Layer Config:</td><td><button>+</button></td>
+      </tr>
+      <tr>
+        <td>Nodes:</td>
+        <td><input size="3" maxlength="2" /></td>
+        <td>Layer Activation:</td>
+        <td>
+          <select>
+            <option>Sigmoid</option>
+            <option>Gaussian</option>
+          </select>
+        </td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr>
+        <td><button onclick="startEvolution()">Start</button></td>
+      </tr>
+    </table>
   </div>
   <script type="text/javascript">
   var config = {
