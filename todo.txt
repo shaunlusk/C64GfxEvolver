@@ -1,4 +1,4 @@
-Button to start
+
 config from form
   net layers
     outputs
