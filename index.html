@@ -170,10 +170,11 @@
     // TODO wipe instruction text
 
     var factory = new C64GfxEv.Factory({
-      pixElementCreatorType: getPixElementCreatorType()
+      pixElementCreatorType: getPixElementCreatorType(),
+
     });
 
-    populationDisplayer = new C64GfxEv.PopulationDisplayer({
+    populationDisplayer = factory.getPopulationDisplayer({
       layer:gfxLayer,
       screenWidth:gfxLayer.getWidth() / config.scaleX,
       paddingX:16,
@@ -216,8 +217,13 @@
     $(el).parent().remove();
   }
 
+  function buildConfig() {
+    var config = {};
+
+    return config;
+  }
+
   function getPixElementCreatorType() {
-    //"C64NearestNeighborColorPixElementCreator"
     var selectedIndex = $("#pixElementCreatorSelector")[0].selectedIndex;
     switch(selectedIndex) {
       case 0: return "C64NearestNeighborColorPixElementCreator";
