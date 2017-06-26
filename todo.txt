@@ -3,7 +3,7 @@ config from form
   net layers
     outputs
     hidden
-pix element creator
+element size?
 
 reset
 
@@ -12,3 +12,5 @@ serialize pix map
 serialize net
 
 move all object creation to factory
+
+cleanup - remove unused stuff

@@ -75,7 +75,7 @@
   <div id="form">
     <div>
       Color Scheme:
-      <select>
+      <select id="pixElementCreatorSelector">
         <option>C64 Palette</option>
         <option>C64 Monochrome Palette</option>
         <option>Greyscale</option>
@@ -84,7 +84,7 @@
     </div>
     <div>
       Output Layer Activation:
-      <select>
+      <select id="outputLayerActivation">
         <option>Sigmoid</option>
         <option>Gaussian</option>
       </select>
@@ -170,7 +170,7 @@
     // TODO wipe instruction text
 
     var factory = new C64GfxEv.Factory({
-      pixElementCreatorType:"C64NearestNeighborColorPixElementCreator"
+      pixElementCreatorType: getPixElementCreatorType()
     });
 
     populationDisplayer = new C64GfxEv.PopulationDisplayer({
@@ -214,6 +214,18 @@
   }
   function removeLayerConfig(el) {
     $(el).parent().remove();
+  }
+
+  function getPixElementCreatorType() {
+    //"C64NearestNeighborColorPixElementCreator"
+    var selectedIndex = $("#pixElementCreatorSelector")[0].selectedIndex;
+    switch(selectedIndex) {
+      case 0: return "C64NearestNeighborColorPixElementCreator";
+      case 1: return "C64MonochromePixElementCreator";
+      case 2: return "GreyscalePixElementCreator";
+      case 3: return "RgbPixElementCreator";
+    }
+    return null;
   }
 
   initialize(document.getElementById("content"), config);
