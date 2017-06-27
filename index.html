@@ -103,7 +103,7 @@
   </div>
   <script type="text/javascript">
   var layerConfigTemplate =
-    '<div>' +
+    '<div name="hiddenLayerConfig">' +
     'Nodes:&nbsp;' +
     '<input size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
     'Layer Activation:&nbsp;' +
@@ -125,29 +125,10 @@
   var evolverProps = {
     populationSize:18
   };
-  var layerConfig = {
-    input: 3,
-    output: {
-      size:3,
-      activationType:"sigmoid"
-    },
-    hidden: [
-      {
-        size:8,
-        activationType:"gaussian"
-      },
-      {
-        size:8,
-        activationType:"sigmoid"
-      },
-      {
-        size:4,
-        activationType:"sigmoid"
-      },
-    ]
-  };
-  var netFactoryProps = {
-    layerConfig : layerConfig
+
+  var netMutatorProps = {
+    mutationRates : [0.4, 0.3, 0.3],
+    mutationMax:1
   };
 
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
@@ -171,7 +152,8 @@
 
     var factory = new C64GfxEv.Factory({
       pixElementCreatorType: getPixElementCreatorType(),
-
+      layerConfig: buildLayerConfig(),
+      netMutatorProps: netMutatorProps
     });
 
     populationDisplayer = factory.getPopulationDisplayer({
@@ -188,20 +170,12 @@
       elementHeight:32
     });
 
-    netFactory = new C64GfxEv.NetFactory(netFactoryProps);
-
-    var netMutatorProps = {
-      mutationRates : [0.4, 0.3, 0.3],
-      netFactory : netFactory,
-      mutationMax:1
-    };
-
-    netMutator = new C64GfxEv.NetMutator(netMutatorProps);
+    netMutator = factory.getNetMutator();
 
     evolverProps.screenContext = screen;
     evolverProps.populationDisplayer = populationDisplayer;
     evolverProps.pixElementCreator = pixElementCreator;
-    evolverProps.netFactory = netFactory;
+    evolverProps.factory = factory;
     evolverProps.netMutator = netMutator;
     evolver = new C64GfxEv.Evolver(evolverProps);
 
@@ -217,9 +191,15 @@
     $(el).parent().remove();
   }
 
-  function buildConfig() {
-    var config = {};
-
+  function buildLayerConfig() {
+    var config = {
+      input:3,
+      output : {
+        size : outputLayerSizeMap[getPixElementCreatorType()],
+        activationType: getOutputActivationType()
+      },
+      hidden : getHiddenLayersConfig()
+    };
     return config;
   }
 
@@ -233,6 +213,41 @@
     }
     return null;
   }
+
+  function getOutputActivationType() {
+    var selectedIndex = $("#outputLayerActivation")[0].selectedIndex;
+    return indexToActivationType(selectedIndex);
+  }
+
+  function getHiddenLayersConfig() {
+    var layers = [];
+
+    // $($("[name=hiddenLayerConfig]")[0]).children("input")[0].value
+
+    $("[name=hiddenLayerConfig]").each(function(idx,el) {
+      var cfg = {
+        size : parseInt( $(el).children("input")[0].value ),
+        activationType : indexToActivationType( $(el).children("select")[0].selectedIndex )
+      };
+      layers.push(cfg);
+    });
+
+    // $("[name=hiddenLayerConfig]").each(function(a,i){console.log(i+":"+a);});
+    // [object HTMLDivElement]:0
+    // [object HTMLDivElement]:1
+    return layers;
+  }
+
+  function indexToActivationType(selectedIndex) {
+    return selectedIndex === 0 ? "sigmoid": "gaussian";
+  }
+
+  var outputLayerSizeMap = {
+    "C64NearestNeighborColorPixElementCreator":3,
+    "C64MonochromePixElementCreator":1,
+    "GreyscalePixElementCreator":1,
+    "RgbPixElementCreator":3
+  };
 
   initialize(document.getElementById("content"), config);
   </script>
