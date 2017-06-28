@@ -101,6 +101,9 @@
       </div>
     </div>
   </div>
+  <div id="refreshMessage">
+    To reset everything, please refresh the page.
+  </div>
   <script type="text/javascript">
   var layerConfigTemplate =
     '<div name="hiddenLayerConfig">' +
@@ -137,6 +140,8 @@
     netMutator, netFactory, populationDisplayer;
 
   function initialize(targetDiv, config) {
+    $("#refreshMessage").hide();
+
     // Create the C64 Screen
     screen = new C64Style.C64Screen(targetDiv, new C64Style.LayerFactory(), config);
     screen.initialize();
@@ -190,6 +195,9 @@
     screen.on(SL.EventType.MOUSE_UP_ON_ELEMENT, evolver.handleElementClick.bind(evolver));
 
     evolver.createPopulation();
+
+    $("#form").hide();
+    $("#refreshMessage").show();
   }
 
   function addLayerConfig() {
