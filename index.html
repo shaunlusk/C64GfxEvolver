@@ -131,6 +131,8 @@
     mutationMax:1
   };
 
+
+
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
     netMutator, netFactory, populationDisplayer;
 
@@ -150,25 +152,31 @@
   function startEvolution() {
     // TODO wipe instruction text
 
-    var factory = new C64GfxEv.Factory({
-      pixElementCreatorType: getPixElementCreatorType(),
-      layerConfig: buildLayerConfig(),
-      netMutatorProps: netMutatorProps
-    });
-
-    populationDisplayer = factory.getPopulationDisplayer({
-      layer:gfxLayer,
-      screenWidth:gfxLayer.getWidth() / config.scaleX,
-      paddingX:16,
-      paddingY:16
-    });
-
-    pixElementCreator = factory.getPixElementCreator({
+    var pixElementCreatorProps = {
       screenContext: screen,
       layer:gfxLayer,
       elementWidth:32,
       elementHeight:32
+    }
+
+    var populationDisplayerProps = {
+      layer:gfxLayer,
+      screenWidth:gfxLayer.getWidth() / config.scaleX,
+      paddingX:16,
+      paddingY:16
+    };
+
+    var factory = new C64GfxEv.Factory({
+      pixElementCreatorType: getPixElementCreatorType(),
+      layerConfig: buildLayerConfig(),
+      netMutatorProps: netMutatorProps,
+      populationDisplayerProps : populationDisplayerProps,
+      pixElementCreatorProps : pixElementCreatorProps
     });
+
+    populationDisplayer = factory.getPopulationDisplayer();
+
+    pixElementCreator = factory.getPixElementCreator();
 
     netMutator = factory.getNetMutator();
 
@@ -200,6 +208,7 @@
       },
       hidden : getHiddenLayersConfig()
     };
+    console.log(config);
     return config;
   }
 
