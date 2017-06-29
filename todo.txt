@@ -1,16 +1,22 @@
+tests
+documentation
 
 config from form
-  net layers
-    outputs
-    hidden
-element size?
-
-reset
-
+  monochrome colors
+  element size?
+  evolution rates
 
 serialize pix map
 serialize net
 
-move all object creation to factory
+seed import
+
+generation seed indicator box
+
+population saving
+
+game mode
+
+reset
 
 cleanup - remove unused stuff

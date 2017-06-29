@@ -66,13 +66,53 @@
 #content {
   margin : auto
 }
+.textContent {
+  margin:auto;
+  width:640px;
+}
+.configuration {
+  border:2px solid grey;
+  padding:8px;
+}
 </style>
 </head>
 <body>
   <div id="content">
   </div>
+  <div class="textContent" >
+    <p><b>C64 Gfx Evolver</b></p>
+    <p>
+      This is a simple application that uses the C64Style graphics framework
+      and very simple generated neural networks to produce images.
+    </p>
+    <p>
+      A population of networks is generated randomly to start, and one image is
+      produced from each. When you click on one of the displayed images, the
+      network that produced it is used to produce a new population.  The new
+      population of networks will be cloned from the selected one, and given
+      random mutations to produce different looking images.  The process
+      then repeats when another image is selected.  Over time, increasingly
+      complex images can be "evolved".
+    </p>
+    <p>
+      Use the form below to select the type of image output to generate,
+      and the parameters for the networks.  Click the '+' symbol to add additional
+      'hidden' layers to the networks.  You can configure the number of nodes
+      and the node activation type for each layer.  When ready to generate the
+      starting population, click 'Start'.
+    </p>
+    <p>
+      This is mostly just a toy, have fun!  Enhancements may be coming in the
+      future.
+    </p>
+    <p>C64GfxEvolver is maintained by Shaun Lusk.</br>
+      The source code for this project is freely available under the MIT license at
+        <a href="https://github.com/shaunlusk/C64GfxEvolver">Github</a>.
+    </p>
+  </div>
   <div>&nbsp;</div>
-  <div id="form">
+  <div class="textContent configuration" id="form">
+    <div>Configuration</div>
     <div>
       Color Scheme:
       <select id="pixElementCreatorSelector">
@@ -101,15 +141,18 @@
       </div>
     </div>
   </div>
-  <div id="refreshMessage">
-    To reset everything, please refresh the page.
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div class="textContent configuration" id="refreshMessage">
+    *** To reset configuration and start again, please refresh the page.
   </div>
+
   <script type="text/javascript">
   var layerConfigTemplate =
     '<div name="hiddenLayerConfig">' +
-    'Nodes:&nbsp;' +
+    'Node Count:&nbsp;' +
     '<input size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
-    'Layer Activation:&nbsp;' +
+    'Layer Activation Type:&nbsp;' +
       '<select>' +
         '<option>Sigmoid</option>' +
         '<option>Gaussian</option>' +
@@ -118,8 +161,8 @@
     '</div>';
 
   var config = {
-      "rows" : 28,
-      "cols" : 40,
+      "rows" : 20,
+      "cols" : 37,
       "scaleX" : 2,
       "scaleY" : 2,
       "fpsElem" : document.getElementById('info')
@@ -130,11 +173,9 @@
   };
 
   var netMutatorProps = {
-    mutationRates : [0.4, 0.3, 0.3],
+    mutationRates : [0.5, 0.4, 0.1],
     mutationMax:1
   };
-
-
 
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
     netMutator, netFactory, populationDisplayer;
@@ -151,11 +192,13 @@
 
     textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
-    // TODO write instruction text
+    textLayer.writeText("See instructions and configuration", 1, 5, C64Style.Color.WHITE, C64Style.Color.BLUE);
+    textLayer.writeText("options below.", 1, 6, C64Style.Color.WHITE, C64Style.Color.BLUE);
   }
 
   function startEvolution() {
-    // TODO wipe instruction text
+    textLayer.clearLength(1, 5, 34);
+    textLayer.clearLength(1, 6, 14);
 
     var pixElementCreatorProps = {
       screenContext: screen,
@@ -239,8 +282,6 @@
   function getHiddenLayersConfig() {
     var layers = [];
 
-    // $($("[name=hiddenLayerConfig]")[0]).children("input")[0].value
-
     $("[name=hiddenLayerConfig]").each(function(idx,el) {
       var cfg = {
         size : parseInt( $(el).children("input")[0].value ),
@@ -249,9 +290,6 @@
       layers.push(cfg);
     });
 
-    // $("[name=hiddenLayerConfig]").each(function(a,i){console.log(i+":"+a);});
-    // [object HTMLDivElement]:0
-    // [object HTMLDivElement]:1
     return layers;
   }
 
