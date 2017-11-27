@@ -80,6 +80,48 @@
   <div id="content">
   </div>
   <div class="textContent" >
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="textContent configuration" id="form">
+      <div>Configuration</div>
+      <div>
+        Color Scheme:
+        <select id="pixElementCreatorSelector">
+          <option>C64 Palette</option>
+          <option>C64 Monochrome Palette</option>
+          <option>Greyscale</option>
+          <option>256bit RGB</option>
+        </select>
+      </div>
+      <div>
+        Output Layer Activation:
+        <select id="outputLayerActivation">
+          <option>Sigmoid</option>
+          <option>Gaussian</option>
+        </select>
+      </div>
+      <div>&nbsp;</div>
+      <div>
+        Layer Config:<button onclick="addLayerConfig()">+</button>
+        <div id="layerTarget"></div>
+        <div>&nbsp;</div>
+        <div>Note: Adding many large layers will degrade performance.</div>
+        <div>&nbsp;</div>
+        <div>
+          <button onclick="startEvolution()">Start</button></td>
+        </div>
+      </div>
+    </div>
+    <div class="textContent configuration" id="refreshMessage">
+      <p>
+        <button id="viewModeButton" onclick="switchToViewMode()">Switch to View Mode</button>
+        <button id="evolveModeButton" onclick="switchToEvolveMode()">Return to Evolve Mode</button>
+      </p>
+      <div id="viewModeMessage">View Mode: click an element above to see it enlarged.</div>
+      <p>
+        *** To reset configuration and start again, please refresh the page.
+      </p>
+    </div>
     <p><b>C64 Gfx Evolver</b></p>
     <p>
       This is a simple application that uses the C64Style graphics framework
@@ -111,41 +153,7 @@
     </p>
   </div>
   <div>&nbsp;</div>
-  <div class="textContent configuration" id="form">
-    <div>Configuration</div>
-    <div>
-      Color Scheme:
-      <select id="pixElementCreatorSelector">
-        <option>C64 Palette</option>
-        <option>C64 Monochrome Palette</option>
-        <option>Greyscale</option>
-        <option>256bit RGB</option>
-      </select>
-    </div>
-    <div>
-      Output Layer Activation:
-      <select id="outputLayerActivation">
-        <option>Sigmoid</option>
-        <option>Gaussian</option>
-      </select>
-    </div>
-    <div>&nbsp;</div>
-    <div>
-      Layer Config:<button onclick="addLayerConfig()">+</button>
-      <div id="layerTarget"></div>
-      <div>&nbsp;</div>
-      <div>Note: Adding many large layers will degrade performance.</div>
-      <div>&nbsp;</div>
-      <div>
-        <button onclick="startEvolution()">Start</button></td>
-      </div>
-    </div>
-  </div>
-  <div>&nbsp;</div>
-  <div>&nbsp;</div>
-  <div class="textContent configuration" id="refreshMessage">
-    *** To reset configuration and start again, please refresh the page.
-  </div>
+
 
   <script type="text/javascript">
   var layerConfigTemplate =
@@ -293,6 +301,20 @@
     return layers;
   }
 
+  function switchToEvolveMode() {
+    $("#viewModeMessage").hide();
+    $("#evolveModeButton").hide();
+    $("#viewModeButton").show();
+    evolver.switchToEvolveMode();
+  }
+
+  function switchToViewMode() {
+    $("#viewModeMessage").show();
+    $("#evolveModeButton").show();
+    $("#viewModeButton").hide();
+    evolver.switchToViewMode();
+  }
+
   function indexToActivationType(selectedIndex) {
     return selectedIndex === 0 ? "sigmoid": "gaussian";
   }
@@ -304,6 +326,8 @@
     "RgbPixElementCreator":3
   };
 
+  $("#viewModeMessage").hide();
+  $("#evolveModeButton").hide();
   initialize(document.getElementById("content"), config);
   </script>
 </body>
