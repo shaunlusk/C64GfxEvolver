@@ -153,6 +153,7 @@
     </p>
   </div>
   <div>&nbsp;</div>
+  <div id="output"></div>
 
 
   <script type="text/javascript">
@@ -249,6 +250,9 @@
 
     $("#form").hide();
     $("#refreshMessage").show();
+
+    var canvas = createCanvas($("#output")[0], 20, 20 );
+    $("#output").hide();
   }
 
   function addLayerConfig() {
@@ -317,6 +321,15 @@
 
   function indexToActivationType(selectedIndex) {
     return selectedIndex === 0 ? "sigmoid": "gaussian";
+  }
+
+  function createCanvas(targetDiv, width, height) {
+    var canvas = document.createElement("CANVAS");
+    targetDiv.appendChild(canvas);
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.position = "absolute";
+    return canvas;
   }
 
   var outputLayerSizeMap = {
