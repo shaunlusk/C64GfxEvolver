@@ -2,7 +2,7 @@
 
 Run 'yarn install' or 'npm install' to get setup.  Then visit index.html in a browser.
 
-This is a simple application that uses the C64Style graphics framework
+This is a simple application that uses the C64Style graphics library
 and very simple generated neural networks to produce images.
 
 A population of networks is generated randomly to start, and one image is
