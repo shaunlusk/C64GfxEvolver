@@ -1,50 +1,8 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>C64 Gfx Evolver</title>
-  <script type="text/javascript" src="node_modules/slcommon/Event.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/EventNotifierMixin.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/Utils.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/LinkedList.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/MixinTemplate.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/Queue.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/PriorityQueue.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/UniquePriorityQueue.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Utils.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/EventTypes.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/CanvasContextWrapper.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Layer.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/GfxElement.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/GfxElementZIndexComparable.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/GfxLayer.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageElement.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageLoader.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageRenderer.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/SpriteAnimationFrame.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Sprite.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageSpriteFrame.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageSprite.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/LayerFactory.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/MoveOrder.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Screen.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/SlImport.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Common/Utils.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Constants.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Color.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/CharacterMap.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/ColorPointer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixPathTypes.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/LayerFactory.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/CharacterRenderer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixRenderer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixElement.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixSprite.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextElement.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextLink.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextButton.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextPrompt.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextLayer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Screen.js"></script>
+  <title>SL Gfx Evolver</title>
+  <script type="text/javascript" src="./bundle.dev.js"></script>
 
   <script type="text/javascript" src="lib/PixElementExtension.js"></script>
   <script type="text/javascript" src="lib/Net.js"></script>
@@ -87,10 +45,9 @@
       <div>
         Color Scheme:
         <select id="pixElementCreatorSelector">
-          <option>C64 Palette</option>
-          <option>C64 Monochrome Palette</option>
-          <option>Greyscale</option>
           <option>256bit RGB</option>
+          <option>Greyscale</option>
+          <option>Monochrome</option>
         </select>
       </div>
       <div>
@@ -122,11 +79,18 @@
         *** To reset configuration and start again, please refresh the page.
       </p>
     </div>
-    <p><b>C64 Gfx Evolver</b></p>
+    <p><b>SL Gfx Evolver</b></p>
     <p>
-      This is a simple application that uses the C64Style graphics framework
+      This is a simple application that uses the C64Style graphics library
       and very simple generated neural networks to produce images.
     </p>
+    <h4>Quickstart</h4>
+    <p>To begin using the default configuration, just click 'Start' above.
+      A series of images will be generated using randomized networks.  
+      Clicking an image will produce new networks, similar to the one that generated the clicked image.
+      With time and patience, you may get something interesting.
+    </p>
+    <h4>Notes</h4>
     <p>
       A population of networks is generated randomly to start, and one image is
       produced from each. When you click on one of the displayed images, the
@@ -136,18 +100,19 @@
       then repeats when another image is selected.  Over time, increasingly
       complex images can be "evolved".
     </p>
+    <h4>Configuration</h4>
     <p>
-      Use the form below to select the type of image output to generate,
+      Use the form above to select the type of image output to generate,
       and the parameters for the networks.  Click the '+' symbol to add additional
       'hidden' layers to the networks.  You can configure the number of nodes
       and the node activation type for each layer.  When ready to generate the
-      starting population, click 'Start'.
+      starting population, click 'Start'.  Some configurations work better than others.
     </p>
     <p>
       This is mostly just a toy, have fun!  Enhancements may be coming in the
       future.
     </p>
-    <p>C64GfxEvolver is maintained by Shaun Lusk.</br>
+    <p>sl-gfx-evolver is (rarely) maintained by Shaun Lusk.</br>
       The source code for this project is freely available under the MIT license at
         <a href="https://github.com/shaunlusk/C64GfxEvolver">Github</a>.
     </p>
@@ -159,11 +124,11 @@
   var layerConfigTemplate =
     '<div name="hiddenLayerConfig">' +
     'Node Count:&nbsp;' +
-    '<input size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
+    '<input class="layerSize" size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
     'Layer Activation Type:&nbsp;' +
-      '<select>' +
-        '<option>Sigmoid</option>' +
-        '<option>Gaussian</option>' +
+      '<select class="activationType">' +
+        '<option value="sigmoid">Sigmoid</option>' +
+        '<option value="gaussian">Gaussian</option>' +
       '</select>' +
     '&nbsp;&nbsp;&nbsp;<button onclick="removeLayerConfig(this)">x</button>' +
     '</div>';
@@ -173,7 +138,11 @@
       "cols" : 37,
       "scaleX" : 2,
       "scaleY" : 2,
-      "fpsElem" : document.getElementById('info')
+      backgroundColor: '#000000',
+      borderColor: '#FFFFFF',
+      borderSize: 2,
+      targetDiv: document.getElementById("content"),
+      layerFactory: new C64Style.LayerFactory()
     };
 
   var evolverProps = {
@@ -188,20 +157,30 @@
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
     netMutator, netFactory, populationDisplayer;
 
-  function initialize(targetDiv, config) {
+  function initialize(config) {
     $("#refreshMessage").hide();
 
     // Create the C64 Screen
-    screen = new C64Style.C64Screen(targetDiv, new C64Style.LayerFactory(), config);
+    screen = new C64Style.C64Screen(config);
     screen.initialize();
     textLayer = screen.createLayer("TextLayer");
     gfxLayer = screen.createLayer("GfxLayer");
     screen.render();
 
-    textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
+    textLayer.writeText("SL Gfx Evolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
-    textLayer.writeText("See instructions and configuration", 1, 5, C64Style.Color.WHITE, C64Style.Color.BLUE);
-    textLayer.writeText("options below.", 1, 6, C64Style.Color.WHITE, C64Style.Color.BLUE);
+    textLayer.writeText("See instructions and configuration", 1, 5, C64Style.Color.WHITE);
+    textLayer.writeText("options below.", 1, 6, C64Style.Color.WHITE);
+
+    // setup default net config
+    addLayerConfig();
+    addLayerConfig();
+    addLayerConfig();
+
+    $(".layerSize").val(5);
+    $($(".layerSize")[1]).val(7);
+    $(".activationType").val('gaussian');
+    $($(".activationType")[0]).val('sigmoid');
   }
 
   function startEvolution() {
@@ -274,10 +253,9 @@
   function getPixElementCreatorType() {
     var selectedIndex = $("#pixElementCreatorSelector")[0].selectedIndex;
     switch(selectedIndex) {
-      case 0: return "C64NearestNeighborColorPixElementCreator";
-      case 1: return "C64MonochromePixElementCreator";
-      case 2: return "GreyscalePixElementCreator";
-      case 3: return "RgbPixElementCreator";
+      case 0: return "RgbPixElementCreator";
+      case 1: return "GreyscalePixElementCreator";
+      case 2: return "C64MonochromePixElementCreator";
     }
     return null;
   }
@@ -320,7 +298,6 @@
   }
 
   var outputLayerSizeMap = {
-    "C64NearestNeighborColorPixElementCreator":3,
     "C64MonochromePixElementCreator":1,
     "GreyscalePixElementCreator":1,
     "RgbPixElementCreator":3
@@ -328,7 +305,7 @@
 
   $("#viewModeMessage").hide();
   $("#evolveModeButton").hide();
-  initialize(document.getElementById("content"), config);
+  initialize(config);
   </script>
 </body>
 </html>

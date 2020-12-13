@@ -1,9 +1,8 @@
-# C64 Gfx Evolver
+# SL Gfx Evolver
 
-Requires jquery and the latest version of shaunlusk/C64Style.
-Run 'yarn install' or 'npm install' to get setup.
+Run 'yarn install' or 'npm install' to get setup.  Then visit index.html in a browser.
 
-This is a simple application that uses the C64Style graphics framework
+This is a simple application that uses the C64Style graphics library
 and very simple generated neural networks to produce images.
 
 A population of networks is generated randomly to start, and one image is
