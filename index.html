@@ -1,50 +1,8 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>C64 Gfx Evolver</title>
-  <script type="text/javascript" src="node_modules/slcommon/Event.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/EventNotifierMixin.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/Utils.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/LinkedList.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/MixinTemplate.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/Queue.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/PriorityQueue.js"></script>
-  <script type="text/javascript" src="node_modules/slcommon/UniquePriorityQueue.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Utils.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/EventTypes.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/CanvasContextWrapper.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Layer.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/GfxElement.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/GfxElementZIndexComparable.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/GfxLayer.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageElement.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageLoader.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageRenderer.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/SpriteAnimationFrame.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Sprite.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageSpriteFrame.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/ImageSprite.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/LayerFactory.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/MoveOrder.js"></script>
-  <script type="text/javascript" src="node_modules/slgfx/Screen.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/SlImport.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Common/Utils.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Constants.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Color.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/CharacterMap.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/ColorPointer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixPathTypes.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/LayerFactory.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/CharacterRenderer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixRenderer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixElement.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/PixSprite.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextElement.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextLink.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextButton.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextPrompt.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/TextLayer.js"></script>
-  <script type="text/javascript" src="node_modules/C64Style/lib/Screen.js"></script>
+  <title>SL Gfx Evolver</title>
+  <script type="text/javascript" src="./bundle.dev.js"></script>
 
   <script type="text/javascript" src="lib/PixElementExtension.js"></script>
   <script type="text/javascript" src="lib/Net.js"></script>
@@ -122,9 +80,9 @@
         *** To reset configuration and start again, please refresh the page.
       </p>
     </div>
-    <p><b>C64 Gfx Evolver</b></p>
+    <p><b>SL Gfx Evolver</b></p>
     <p>
-      This is a simple application that uses the C64Style graphics framework
+      This is a simple application that uses the C64Style graphics library
       and very simple generated neural networks to produce images.
     </p>
     <p>
@@ -173,7 +131,11 @@
       "cols" : 37,
       "scaleX" : 2,
       "scaleY" : 2,
-      "fpsElem" : document.getElementById('info')
+      backgroundColor: '#000000',
+      borderColor: '#FFFFFF',
+      borderSize: 2,
+      targetDiv: document.getElementById("content"),
+      layerFactory: new C64Style.LayerFactory()
     };
 
   var evolverProps = {
@@ -188,20 +150,20 @@
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
     netMutator, netFactory, populationDisplayer;
 
-  function initialize(targetDiv, config) {
+  function initialize(config) {
     $("#refreshMessage").hide();
 
     // Create the C64 Screen
-    screen = new C64Style.C64Screen(targetDiv, new C64Style.LayerFactory(), config);
+    screen = new C64Style.C64Screen(config);
     screen.initialize();
     textLayer = screen.createLayer("TextLayer");
     gfxLayer = screen.createLayer("GfxLayer");
     screen.render();
 
-    textLayer.writeText("C64GfxEvolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
+    textLayer.writeText("SL Gfx Evolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
 
-    textLayer.writeText("See instructions and configuration", 1, 5, C64Style.Color.WHITE, C64Style.Color.BLUE);
-    textLayer.writeText("options below.", 1, 6, C64Style.Color.WHITE, C64Style.Color.BLUE);
+    textLayer.writeText("See instructions and configuration", 1, 5, C64Style.Color.WHITE);
+    textLayer.writeText("options below.", 1, 6, C64Style.Color.WHITE);
   }
 
   function startEvolution() {
@@ -328,7 +290,7 @@
 
   $("#viewModeMessage").hide();
   $("#evolveModeButton").hide();
-  initialize(document.getElementById("content"), config);
+  initialize(config);
   </script>
 </body>
 </html>
