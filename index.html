@@ -2,7 +2,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <title>SL Gfx Evolver</title>
-  <script type="text/javascript" src="./bundle.dev.js"></script>
+  <script type="text/javascript" src="./C64StyleBundle.js"></script>
 
   <script type="text/javascript" src="lib/PixElementExtension.js"></script>
   <script type="text/javascript" src="lib/Net.js"></script>
@@ -142,7 +142,7 @@
       borderColor: '#FFFFFF',
       borderSize: 2,
       targetDiv: document.getElementById("content"),
-      layerFactory: new C64Style.LayerFactory()
+      layerFactory: new C64Style.LayerFactory(),
     };
 
   var evolverProps = {
@@ -163,7 +163,7 @@
     // Create the C64 Screen
     screen = new C64Style.C64Screen(config);
     screen.initialize();
-    textLayer = screen.createLayer("TextLayer");
+    textLayer = screen.createLayer("TextLayer", {scaleX: 2, scaleY: 2});
     gfxLayer = screen.createLayer("GfxLayer");
     screen.render();
 
