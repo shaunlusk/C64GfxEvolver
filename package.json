@@ -1,6 +1,6 @@
 {
-  "name": "C64GfxEvolver",
-  "version": "0.1.0",
+  "name": "sl-gfx-evolver",
+  "version": "1.0.0",
   "main": "index.js",
   "author": "Shaun Lusk",
   "license": "MIT",

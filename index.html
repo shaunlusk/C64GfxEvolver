@@ -84,6 +84,13 @@
       This is a simple application that uses the C64Style graphics library
       and very simple generated neural networks to produce images.
     </p>
+    <h4>Quickstart</h4>
+    <p>To begin using the default configuration, just click 'Start' above.
+      A series of images will be generated using randomized networks.  
+      Clicking an image will produce new networks, similar to the one that generated the clicked image.
+      With time and patience, you may get something interesting.
+    </p>
+    <h4>Notes</h4>
     <p>
       A population of networks is generated randomly to start, and one image is
       produced from each. When you click on one of the displayed images, the
@@ -93,18 +100,19 @@
       then repeats when another image is selected.  Over time, increasingly
       complex images can be "evolved".
     </p>
+    <h4>Configuration</h4>
     <p>
-      Use the form below to select the type of image output to generate,
+      Use the form above to select the type of image output to generate,
       and the parameters for the networks.  Click the '+' symbol to add additional
       'hidden' layers to the networks.  You can configure the number of nodes
       and the node activation type for each layer.  When ready to generate the
-      starting population, click 'Start'.
+      starting population, click 'Start'.  Some configurations work better than others.
     </p>
     <p>
       This is mostly just a toy, have fun!  Enhancements may be coming in the
       future.
     </p>
-    <p>C64GfxEvolver is maintained by Shaun Lusk.</br>
+    <p>sl-gfx-evolver is (rarely) maintained by Shaun Lusk.</br>
       The source code for this project is freely available under the MIT license at
         <a href="https://github.com/shaunlusk/C64GfxEvolver">Github</a>.
     </p>
@@ -116,11 +124,11 @@
   var layerConfigTemplate =
     '<div name="hiddenLayerConfig">' +
     'Node Count:&nbsp;' +
-    '<input size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
+    '<input class="layerSize" size="3" maxlength="2" />&nbsp;&nbsp;&nbsp;' +
     'Layer Activation Type:&nbsp;' +
-      '<select>' +
-        '<option>Sigmoid</option>' +
-        '<option>Gaussian</option>' +
+      '<select class="activationType">' +
+        '<option value="sigmoid">Sigmoid</option>' +
+        '<option value="gaussian">Gaussian</option>' +
       '</select>' +
     '&nbsp;&nbsp;&nbsp;<button onclick="removeLayerConfig(this)">x</button>' +
     '</div>';
@@ -163,6 +171,16 @@
 
     textLayer.writeText("See instructions and configuration", 1, 5, C64Style.Color.WHITE);
     textLayer.writeText("options below.", 1, 6, C64Style.Color.WHITE);
+
+    // setup default net config
+    addLayerConfig();
+    addLayerConfig();
+    addLayerConfig();
+
+    $(".layerSize").val(5);
+    $($(".layerSize")[1]).val(7);
+    $(".activationType").val('gaussian');
+    $($(".activationType")[0]).val('sigmoid');
   }
 
   function startEvolution() {
