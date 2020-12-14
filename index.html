@@ -17,6 +17,7 @@
   <script type="text/javascript" src="lib/PopulationDisplayer.js"></script>
   <script type="text/javascript" src="lib/Factory.js"></script>
   <script type="text/javascript" src="lib/Evolver.js"></script>
+  <script type="text/javascript" src="lib/SaveImageScreenManager.js"></script>
 
   <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -73,6 +74,7 @@
       <p>
         <button id="viewModeButton" onclick="switchToViewMode()">Switch to View Mode</button>
         <button id="evolveModeButton" onclick="switchToEvolveMode()">Return to Evolve Mode</button>
+        <button id="saveButton" onclick="saveImage()">Save Image</button>
       </p>
       <div id="viewModeMessage">View Mode: click an element above to see it enlarged.</div>
       <p>
@@ -118,7 +120,8 @@
     </p>
   </div>
   <div>&nbsp;</div>
-
+  <div id="saveImage">
+  </div>
 
   <script type="text/javascript">
   var layerConfigTemplate =
@@ -155,7 +158,7 @@
   };
 
   var screen = null, textLayer = null, gfxLayer, evolver, pixElementCreator,
-    netMutator, netFactory, populationDisplayer;
+    netMutator, netFactory, populationDisplayer, saveImageScreenManager;
 
   function initialize(config) {
     $("#refreshMessage").hide();
@@ -183,12 +186,29 @@
     $($(".layerSize")[1]).val(7);
     $(".activationType").val('gaussian');
     $($(".activationType")[0]).val('sigmoid');
+
+    var saveScreen = new SL.Screen({
+      scaleX:2,
+      scaleY:2,
+      width: 128,
+      height: 128,
+      backgroundColor: '#000000',
+      borderColor: '#FFFFFF',
+      borderSize: 0,
+      targetDiv: document.getElementById("saveImage"),
+      layerFactory: new C64Style.LayerFactory(),
+    });
+    var saveLayer = saveScreen.createLayer("GfxLayer");
+    saveScreen.render();
+    saveImageScreenManager = new C64GfxEv.SaveImageScreenManager({
+      screenContext: saveScreen, 
+      gfxLayer: saveLayer
+    });
   }
 
   function startEvolution() {
     textLayer.clearLayer();
     textLayer.writeText("SL Gfx Evolver", 1, 1, C64Style.Color.WHITE, C64Style.Color.BLACK);
-
 
     var pixElementCreatorProps = {
       screenContext: screen,
@@ -223,9 +243,15 @@
     evolverProps.pixElementCreator = pixElementCreator;
     evolverProps.factory = factory;
     evolverProps.netMutator = netMutator;
+    evolverProps.saveImageScreenManager = saveImageScreenManager;
     evolver = new C64GfxEv.Evolver(evolverProps);
 
-    screen.on(SL.EventType.MOUSE_UP_ON_ELEMENT, evolver.handleElementClick.bind(evolver));
+    screen.on(SL.EventType.MOUSE_UP_ON_ELEMENT, function(event) {
+      evolver.handleElementClick(event);
+      if (evolver.getMode() === 'view') {
+        $("#saveButton").show();
+      }
+    });
 
     evolver.createPopulation();
 
@@ -249,7 +275,6 @@
       },
       hidden : getHiddenLayersConfig()
     };
-    console.log(config);
     return config;
   }
 
@@ -286,6 +311,8 @@
     $("#viewModeMessage").hide();
     $("#evolveModeButton").hide();
     $("#viewModeButton").show();
+    $("#saveButton").hide();
+    
     evolver.switchToEvolveMode();
   }
 
@@ -308,7 +335,24 @@
 
   $("#viewModeMessage").hide();
   $("#evolveModeButton").hide();
+  $("#saveButton").hide();
+
   initialize(config);
+
+  function saveImage() {
+    var canvas = $('#saveImage canvas')[0];
+    var imageUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); 
+    
+    var a = document.createElement("a");
+    a.href = imageUrl;
+    a.download = 'image.png';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(imageUrl);  
+    }, 0); 
+  }
   </script>
 </body>
 </html>
