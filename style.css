@@ -34,3 +34,7 @@ a {
   border-color: white;
   border-width: 2px;
 }
+
+#saveImage {
+  display: none;
+}
